@@ -11,6 +11,13 @@ Der Ort zur Ablage dieser Dateien unterscheidet sich nach verwendetem Betriebssy
 * **Windows**: `C:\onkostar\files\onkostar\plugins\onkostar-plugin-atccodes\`
 * **Linux**: `/opt/onkostar/files/onkostar/plugins/onkostar-plugin-atccodes/`
 
+### Unterstütztes Format der selbst erstellten CSV-Datei
+
+Die CSV-Datei muss die beiden Spalten `CODE` und `NAME` mit den entsprechenden Informationen enthalten.
+Beim Import wird die erste Zeile der Datei, welche die Spaltenüberschriften enthält, nicht verarbeitet.
+Entsprechend [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) werden Werte durch Kommata getrennt und von `"` umschlossen,
+wenn Sie Leerzeichen enthalten.
+
 ## Funktionalität
 
 Das Plugin liest vorhandene Dateien `atc.xml` oder `atc.csv` ein und ermöglicht zusammen mit Inhalten
