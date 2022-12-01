@@ -42,9 +42,9 @@ import java.util.stream.Collectors;
  */
 public abstract class FileBasedAgentCodeService implements AgentCodeService {
 
-    protected Logger logger = LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    protected List<AgentCode> codeList = new ArrayList<>();
+    protected final List<AgentCode> codeList = new ArrayList<>();
 
     FileBasedAgentCodeService(ResourceLoader resourceLoader) {
         this.codeList.addAll(parseFile(resourceLoader));

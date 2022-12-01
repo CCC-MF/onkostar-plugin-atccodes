@@ -30,8 +30,6 @@ import de.itc.onkostar.api.analysis.AnalyzerRequirement;
 import de.itc.onkostar.api.analysis.IProcedureAnalyzer;
 import de.itc.onkostar.api.analysis.OnkostarPluginType;
 import de.ukw.ccc.onkostar.atccodes.services.AgentCodeService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -39,10 +37,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Plugin implementation
+ * Provides methods exposed to Onkostar
+ *
+ * @author Paul-Christian Volkmer
+ * @since 0.1.0
+ */
 @Component
 public class AtcCodesPlugin implements IProcedureAnalyzer {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private final List<AgentCodeService> agentCodeServices;
 
@@ -96,7 +99,7 @@ public class AtcCodesPlugin implements IProcedureAnalyzer {
     }
 
     /**
-     * Return Hello Message for given name and log method call.
+     * Return list with ATC codes and agents.
      * Usage in script:
      *
      * <pre>
@@ -110,7 +113,7 @@ public class AtcCodesPlugin implements IProcedureAnalyzer {
      * </pre>
      *
      * @param input The data Map
-     * @return The hello message
+     * @return The result list filtered by input
      */
     public List<AgentCode> query(Map<String, Object> input) {
         String query = "";
