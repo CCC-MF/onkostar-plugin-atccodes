@@ -72,7 +72,7 @@ class AtcCodePluginTest {
 
         when(csvAtcCodeService.findAgentCodes(anyString(), anyInt())).thenReturn(
                 List.of(
-                        new AtcCode("M01BA03", "Acetylsalicylic acid and corticosteroids")
+                        new AtcCode("M01BA03", "acetylsalicylic acid and corticosteroids")
                 )
         );
 

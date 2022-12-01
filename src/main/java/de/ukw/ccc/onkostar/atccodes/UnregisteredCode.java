@@ -56,7 +56,7 @@ public class UnregisteredCode implements AgentCode {
 
     @Override
     public int compareTo(AgentCode agentCode) {
-        return this.name.compareTo(agentCode.getName());
+        return this.name.toLowerCase().compareTo(agentCode.getName().toLowerCase());
     }
 
     @Override
@@ -64,11 +64,12 @@ public class UnregisteredCode implements AgentCode {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AgentCode otherAgentCode = (AgentCode) o;
-        return Objects.equals(code, otherAgentCode.getCode()) && Objects.equals(name, otherAgentCode.getName());
+        return Objects.equals(code.toLowerCase(), otherAgentCode.getCode().toLowerCase())
+                && Objects.equals(name.toLowerCase(), otherAgentCode.getName().toLowerCase());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, name);
+        return Objects.hash(code.toLowerCase(), name.toLowerCase());
     }
 }
