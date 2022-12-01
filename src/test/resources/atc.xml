@@ -1,0 +1,35 @@
+<xml xmlns:s='uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882'
+     xmlns:dt='uuid:C2F41010-65B3-11d1-A29F-00AA00C14882'
+     xmlns:rs='urn:schemas-microsoft-com:rowset'
+     xmlns:z='#RowsetSchema'>
+    <s:Schema id='RowsetSchema'>
+        <s:ElementType name='row' content='eltOnly' rs:updatable='true'>
+            <s:AttributeType name='ATCCode' rs:number='1' rs:writeunknown='true' rs:basecatalog='ATC' rs:basetable='#t1'
+                             rs:basecolumn='ATCCode'>
+                <s:datatype dt:type='string' rs:dbtype='str' dt:maxLength='10' rs:maybenull='false'/>
+            </s:AttributeType>
+            <s:AttributeType name='Name' rs:number='2' rs:nullable='true' rs:writeunknown='true' rs:basecatalog='ATC'
+                             rs:basetable='#t1'
+                             rs:basecolumn='Name'>
+                <s:datatype dt:type='string' rs:dbtype='str' dt:maxLength='255'/>
+            </s:AttributeType>
+            <s:AttributeType name='Comment' rs:number='3' rs:nullable='true' rs:writeunknown='true' rs:basecatalog='ATC'
+                             rs:basetable='#t1' rs:basecolumn='Comment'>
+                <s:datatype dt:type='string' rs:dbtype='str' dt:maxLength='255'/>
+            </s:AttributeType>
+            <s:extends type='rs:rowbase'/>
+        </s:ElementType>
+    </s:Schema>
+    <rs:data>
+        <z:row ATCCode='A' Name='ALIMENTARY TRACT AND METABOLISM'/>
+        <z:row ATCCode='A01' Name='STOMATOLOGICAL PREPARATIONS'/>
+        <z:row ATCCode='A01A' Name='STOMATOLOGICAL PREPARATIONS'/>
+        <z:row ATCCode='A01AA' Name='Caries prophylactic agents'/>
+        <z:row ATCCode='A01AA01' Name='Sodium fluoride'/>
+        <z:row ATCCode='A01AA02' Name='Sodium monofluorophosphate'/>
+        <z:row ATCCode='A01AA03' Name='Olaflur'/>
+        <z:row ATCCode='A01AA04' Name='Stannous fluoride'/>
+        <z:row ATCCode='A01AA30' Name='Combinations'/>
+        <z:row ATCCode='A01AA51' Name='Sodium fluoride, combinations'/>
+    </rs:data>
+</xml>
