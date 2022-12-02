@@ -15,7 +15,8 @@ Der Ort zur Ablage dieser Dateien unterscheidet sich nach verwendetem Betriebssy
 
 Die CSV-Datei muss die beiden Spalten `CODE` und `NAME` mit den entsprechenden Informationen enthalten.
 Beim Import wird die erste Zeile der Datei, welche die Spaltenüberschriften enthält, nicht verarbeitet.
-Entsprechend [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) werden Werte durch Kommata getrennt und von `"` umschlossen,
+Entsprechend [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) werden Werte durch Kommata getrennt und von `"`
+umschlossen,
 wenn Sie Leerzeichen enthalten.
 
 ## Funktionalität
@@ -42,7 +43,8 @@ Antworten sind wie folgt strukturiert
 Übergeben werden Substanzen, deren **Name** oder **Code** mit der Zeichenkette in Inputparameter `q` beginnt.
 Die Ergebnisse sind auf `size` Einträge je Datenquelle limitiert.
 
-Die Antwort für nachfolgendes Beispiel zur Verwendung in einem Formularscript enthält Substanzen, die mit `Acetylsal` beginnen.
+Die Antwort für nachfolgendes Beispiel zur Verwendung in einem Formularscript enthält Substanzen, die mit `Acetylsal`
+beginnen.
 
 ```json
 [
@@ -71,106 +73,13 @@ Die Antwort für nachfolgendes Beispiel zur Verwendung in einem Formularscript e
 
 ### Beispiel zur Verwendung in einem Formularscript
 
-Folgendes Script kann zur Abfrage von Substanzen und ATC-Codes in einem Script verwendet werden.
+Das Script in [`examples/dialog.js`](examples/dialog.js) zeigt ein Beispiel zur Verwendung in einem Formularscript.
+Das Beispiel geht davon aus, dass es in einem Formular die beiden Textfelder (Memo) `wirkstoffe` und `wirkstoffejson`
+gibt.
 
-```javascript
-// Hier mit Wert "Acetylsal"
-var query = getFieldValue('q');
-
-var onFailure = function () {
-    Ext.MessageBox.show({
-        title: 'Hinweis',
-        msg: 'Plugin "ATC-Codes und Substanzen" nicht verfügbar. Nutzen Sie das Freitextfeld',
-        buttons: Ext.MessageBox.OKCANCEL,
-        fn: function (btn) {
-            // Noop
-        }
-    });
-};
-
-var addItem = function (item) {
-    // Do something useful ...
-    console.log(item);
-}
-
-var onSuccess = function (data) {
-    const extData = data.map((item) => [item.code, item.name, item.system]);
-
-    const store = new Ext.data.ArrayStore({
-        fields: [
-            {name: 'code'},
-            {name: 'name'},
-            {name: 'system'}
-        ]
-    });
-    store.loadData(extData);
-
-    var selectedItemIndex = -1;
-
-    const grid = new Ext.grid.GridPanel({
-        store: store,
-        loadMask: true,
-        border: false,
-        columns: [
-            {header: 'Code', width: 80, sortable: false, dataIndex: 'code'},
-            {header: 'Name', width: 400, sortable: false, dataIndex: 'name'},
-            {header: 'System', width: 80, sortable: false, dataIndex: 'system'},
-        ],
-        viewConfig: {forceFit: true},
-        listeners: {
-            itemclick: (dv, record, item, index, e) => {
-                selectedItemIndex = index;
-            },
-            itemdbclick: (dv, record, item, index, e) => {
-                selectedItemIndex = index;
-            }
-        }
-    });
-
-    Ext.create('Ext.window.Window', {
-        title: 'Substanz auswählen',
-        height: 400,
-        width: 600,
-        layout: 'fit',
-        items: [grid],
-        buttons: [{
-            text: 'Hinzufügen',
-            cls: 'onko-btn-cta',
-            handler: () => {
-                if (selectedItemIndex > 0) {
-                    addItem(data[selectedItemIndex]);
-                    var win = Ext.WindowManager.getActive();
-                    if (win) {
-                        win.close();
-                    }
-                }
-            }
-        }, {
-            text: 'Abbrechen',
-            handler: () => {
-                var win = Ext.WindowManager.getActive();
-                if (win) {
-                    win.close();
-                }
-            }
-        }]
-    }).show();
-};
-
-executePluginMethod(
-    'AtcCodesPlugin',
-    'query',
-    {q: query, size: 10},
-    function (response) {
-        if (response.status.code < 0) {
-            onFailure();
-            return;
-        }
-        onSuccess(response.result);
-    },
-    false
-);
-```
+Im Feld `wirkstoffe` werden die Namen der Substanzen zeilenweise aufgelistet, im Feld `wirkstoffejson` die
+entsprechenden Daten der ausgewählten Wirkstoffe als JSON-String hinterlegt. Beim Öffnen des Dialogs werden die Daten
+aus dem Feld `wirkstoffejson` ausgelesen und, sofern es dabei keinen Fehler gab, für den Dialog verwendet.
 
 ## Build
 
