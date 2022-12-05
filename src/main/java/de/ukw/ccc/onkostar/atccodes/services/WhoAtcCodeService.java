@@ -26,6 +26,7 @@ package de.ukw.ccc.onkostar.atccodes.services;
 
 import de.ukw.ccc.onkostar.atccodes.AgentCode;
 import de.ukw.ccc.onkostar.atccodes.AtcCode;
+import de.ukw.ccc.onkostar.atccodes.FileParsingException;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
@@ -59,12 +60,17 @@ public class WhoAtcCodeService extends FileBasedAgentCodeService {
             var context = JAXBContext.newInstance(XmlResource.class);
             var xmlResource = (XmlResource) context.createUnmarshaller().unmarshal(inputStream);
             for (var row : xmlResource.data.rows) {
+                if (null == row.code || null == row.name) {
+                    throw new FileParsingException("No XML attribute 'ATCCode' or 'Name' found");
+                }
                 result.add(new AtcCode(row.code, row.name));
             }
             logger.warn("Found WHO XML file for ATC-Codes.");
             return result;
-        } catch (IOException | JAXBException e) {
+        } catch (IOException e) {
             logger.warn("Error reading WHO XML file '{}' for ATC-Codes. Proceeding without inserting data", filename);
+        } catch (JAXBException | FileParsingException e) {
+            logger.warn("Error parsing WHO XML file '{}' for ATC-Codes. Proceeding without inserting data", filename);
         }
         return result;
     }

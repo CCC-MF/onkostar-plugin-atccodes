@@ -92,4 +92,14 @@ class WhoAtcCodeServiceTest {
         assertThat(actual).isEmpty();
     }
 
+    @Test
+    void testShouldReturnEmptyListIfXmlFileNotParseable() {
+        doAnswer(invocationOnMock -> new ClassPathResource("atc_with_errors.xml")).when(resourceLoader).getResource(anyString());
+        this.service = new WhoAtcCodeService(resourceLoader);
+
+        var actual = service.findAgentCodes("A01AA01", 0);
+
+        assertThat(actual).isEmpty();
+    }
+
 }

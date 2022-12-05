@@ -1,0 +1,15 @@
+<xml xmlns:rs='urn:schemas-microsoft-com:rowset'
+     xmlns:z='#RowsetSchema'>
+    <rs:data>
+        <z:row ATCCode='A' ATCName='ALIMENTARY TRACT AND METABOLISM'/>
+        <z:row ATCCode='A01' ATCName='STOMATOLOGICAL PREPARATIONS'/>
+        <z:row ATCCode='A01A' ATCName='STOMATOLOGICAL PREPARATIONS'/>
+        <z:row ATCCode='A01AA' ATCName='Caries prophylactic agents'/>
+        <z:row ATCCode='A01AA01' ATCName='Sodium fluoride'/>
+        <z:row ATCCode='A01AA02' ATCName='Sodium monofluorophosphate'/>
+        <z:row ATCCode='A01AA03' ATCName='Olaflur'/>
+        <z:row ATCCode='A01AA04' ATCName='Stannous fluoride'/>
+        <z:row ATCCode='A01AA30' ATCName='Combinations'/>
+        <z:row ATCCode='A01AA51' ATCName='Sodium fluoride, combinations'/>
+    </rs:data>
+</xml>
