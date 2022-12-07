@@ -1,4 +1,4 @@
-const requestedStore = new Ext.data.ArrayStore({
+const availableStore = new Ext.data.ArrayStore({
     fields: [
         { name: 'code' },
         { name: 'name' },
@@ -14,16 +14,16 @@ const selectedStore = new Ext.data.ArrayStore({
     ]
 });
 
-var pluginRequestsDisabled = false;
-var requested = [];
-var selected = [];
+let pluginRequestsDisabled = false;
+let available = [];
+let selected = [];
 
-var request = function(q) {
+const request = function (q) {
     if (pluginRequestsDisabled) return;
     executePluginMethod(
         'AtcCodesPlugin',
         'query',
-        { q: q, size: 25 },
+        {q: q, size: 25},
         function (response) {
             if (response.status.code < 0) {
                 onFailure();
@@ -33,48 +33,47 @@ var request = function(q) {
         },
         false
     );
-}
+};
 
-var addItem = function(item) {
+const addItem = function (item) {
     selected.push(item);
     const extData = selected.map((item) => [item.code, item.name, item.system]);
     selectedStore.loadData(extData);
-}
+};
 
-var removeItem = function(index) {
+const removeItem = function (index) {
     selected.splice(index, 1);
     const extData = selected.map((item) => [item.code, item.name, item.system]);
     selectedStore.loadData(extData);
-}
+};
 
-var save = function() {
-    var names = selected.map((item) => {return item.name;}).join("\n");
+const save = function () {
+    const names = selected.map((item) => {
+        return item.name;
+    }).join("\n");
     setFieldValue('wirkstoffe', names);
     setFieldValue('wirkstoffejson', JSON.stringify(selected));
-}
+};
 
-var onFailure = function() {
+const onFailure = function() {
     pluginRequestsDisabled = true;
     Ext.MessageBox.show({
         title: 'Hinweis',
         msg: 'Plugin "ATC-Codes und Substanzen" nicht verfügbar. Sie können Substanzen nur über "Aus Suchfeld hinzufügen" hinzufügen.',
-        buttons: Ext.MessageBox.OKCANCEL,
-        fn: function (btn) {
-        // Noop
-        }
+        buttons: Ext.MessageBox.OKCANCEL
     });
 };
 
-var onSuccess = function(d) {
-    requested = d;
-    const extData = requested.map((item) => [item.code, item.name, item.system]);
-    requestedStore.loadData(extData);
+const onSuccess = function(d) {
+    available = d;
+    const extData = available.map((item) => [item.code, item.name, item.system]);
+    availableStore.loadData(extData);
 }
 
-var showDialog = function() {
-    var selectedItemIndex = -1;
-    var deselectedItemIndex = -1;
-    var queryString = '';
+const showDialog = function () {
+    let selectedItemIndex = -1;
+    let deselectedItemIndex = -1;
+    let queryString = '';
 
     try {
         selected = JSON.parse(getFieldValue('wirkstoffejson'));
@@ -91,7 +90,7 @@ var showDialog = function() {
         fieldLabel: 'Suche',
         padding: 8,
         listeners: {
-            change: (f, e) => {
+            change: (f) => {
                 queryString = f.value;
                 request(f.value);
                 if (f.value.length > 0) {
@@ -104,24 +103,23 @@ var showDialog = function() {
     });
 
     const gridColumns = [
-        { header: 'Code', width: 74, sortable: false, dataIndex: 'code' },
-        { header: 'Name', width: 340, sortable: false, dataIndex: 'name' },
-        { header: 'System', width: 74, sortable: false, dataIndex: 'system' },
+        {header: 'Code', width: 74, sortable: false, dataIndex: 'code'},
+        {header: 'Name', width: 340, sortable: false, dataIndex: 'name'},
+        {header: 'System', width: 74, sortable: false, dataIndex: 'system'},
     ];
 
-    const grid = new Ext.grid.GridPanel({
+    const availableGrid = new Ext.grid.GridPanel({
         title: 'Verfügbar',
-        store: requestedStore,
+        store: availableStore,
         loadMask: true,
         border: true,
         columns: gridColumns,
-        //viewConfig: { forceFit: true },
         listeners: {
-            itemclick: (dv, record, item, index, e) => {
+            itemclick: (dv, record, item, index) => {
                 selectedItemIndex = index;
                 Ext.getCmp('btnAddAgent').setDisabled(false);
             },
-            itemdbclick: (dv, record, item, index, e) => {
+            itemdbclick: (dv, record, item, index) => {
                 selectedItemIndex = index;
                 Ext.getCmp('btnAddAgent').setDisabled(false);
             }
@@ -134,13 +132,12 @@ var showDialog = function() {
         loadMask: true,
         border: true,
         columns: gridColumns,
-        //viewConfig: { forceFit: true },
         listeners: {
-            itemclick: (dv, record, item, index, e) => {
+            itemclick: (dv, record, item, index) => {
                 deselectedItemIndex = index;
                 Ext.getCmp('btnRmAgent').setDisabled(false);
             },
-            itemdbclick: (dv, record, item, index, e) => {
+            itemdbclick: (dv, record, item, index) => {
                 deselectedItemIndex = index;
                 Ext.getCmp('btnRmAgent').setDisabled(false);
             }
@@ -151,7 +148,7 @@ var showDialog = function() {
         layout: {
             type: 'hbox'
         },
-        items: [grid, selectedGrid]
+        items: [availableGrid, selectedGrid]
     });
 
     const layout = Ext.create('Ext.Panel', {
@@ -172,7 +169,7 @@ var showDialog = function() {
             text: 'Hinzufügen',
             disabled: true,
             handler: () => {
-                addItem(requested[selectedItemIndex]);
+                addItem(available[selectedItemIndex]);
                 Ext.getCmp('btnAddAgent').setDisabled(true);
             }
         }, {
@@ -200,7 +197,7 @@ var showDialog = function() {
             cls: 'onko-btn-cta',
             handler: () => {
                 save();
-                var win = Ext.WindowManager.getActive();
+                let win = Ext.WindowManager.getActive();
                 if (win) {
                     win.close();
                 }
