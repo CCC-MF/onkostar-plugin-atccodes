@@ -92,4 +92,14 @@ class CsvAtcCodeServiceTest {
         assertThat(actual).isEmpty();
     }
 
+    @Test
+    void testShouldReturnEmptyListIfCsvFileMissesColumn() {
+        doAnswer(invocationOnMock -> new ClassPathResource("atc_missing_column.csv")).when(resourceLoader).getResource(anyString());
+        this.service = new CsvAtcCodeService(resourceLoader);
+
+        var actual = service.findAgentCodes("A01AA01", 0);
+
+        assertThat(actual).isEmpty();
+    }
+
 }

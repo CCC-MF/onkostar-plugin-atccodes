@@ -26,6 +26,7 @@ package de.ukw.ccc.onkostar.atccodes.services;
 
 import de.ukw.ccc.onkostar.atccodes.AgentCode;
 import de.ukw.ccc.onkostar.atccodes.AtcCode;
+import de.ukw.ccc.onkostar.atccodes.FileParsingException;
 import org.apache.commons.csv.CSVFormat;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -54,15 +55,18 @@ public class CsvAtcCodeService extends FileBasedAgentCodeService {
         try {
             var inputStream = resourceLoader.getResource(filename).getInputStream();
             var parser = CSVFormat.RFC4180
-                    .withHeader("CODE", "NAME")
+                    .withHeader()
                     .withSkipHeaderRecord()
                     .parse(new InputStreamReader(inputStream));
-            for (var row : parser.getRecords()) {
+            for (var row : parser) {
+                if (!row.isMapped("CODE") || !row.isMapped("NAME")) {
+                    throw new FileParsingException("No CSV column 'CODE' or 'NAME' found");
+                }
                 result.add(new AtcCode(row.get("CODE"), row.get("NAME")));
             }
             logger.warn("Found CSV file for ATC-Codes.");
             return result;
-        } catch (IOException e) {
+        } catch (IOException | FileParsingException e) {
             logger.warn("Error reading CSV file '{}' for ATC-Codes. Proceeding without data", filename);
         }
         return result;
