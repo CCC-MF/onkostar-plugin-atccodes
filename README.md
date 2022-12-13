@@ -83,6 +83,9 @@ aus dem Feld `wirkstoffejson` ausgelesen und, sofern es dabei keinen Fehler gab,
 
 ## Build
 
+Für das Bauen des Plugins ist zwingend JDK in Version 11 erforderlich.
+Spätere Versionen des JDK beinhalten einige Methoden nicht mehr, die von Onkostar und dort benutzten Libraries verwendet werden.
+
 Voraussetzung ist das Kopieren der Datei `onkostar-api-2.11.1.1.jar` (oder neuer) in das Projektverzeichnis `libs`.
 
 **_Hinweis_**: Bei Verwendung einer neueren Version der Onkostar-API muss die Datei `pom.xml` entsprechend angepasst
