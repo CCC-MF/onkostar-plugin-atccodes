@@ -64,7 +64,7 @@ public class CsvAtcCodeService extends FileBasedAgentCodeService {
                 }
                 result.add(new AtcCode(row.get("CODE"), row.get("NAME")));
             }
-            logger.warn("Found CSV file for ATC-Codes.");
+            logger.info("Found CSV file for ATC-Codes.");
             return result;
         } catch (IOException | FileParsingException e) {
             logger.warn("Error reading CSV file '{}' for ATC-Codes. Proceeding without data", filename);

@@ -65,7 +65,7 @@ public class WhoAtcCodeService extends FileBasedAgentCodeService {
                 }
                 result.add(new AtcCode(row.code, row.name));
             }
-            logger.warn("Found WHO XML file for ATC-Codes.");
+            logger.info("Found WHO XML file for ATC-Codes.");
             return result;
         } catch (IOException e) {
             logger.warn("Error reading WHO XML file '{}' for ATC-Codes. Proceeding without inserting data", filename);
