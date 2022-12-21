@@ -103,9 +103,9 @@ const showDialog = function () {
     });
 
     const gridColumns = [
-        {header: 'Code', width: 74, sortable: false, dataIndex: 'code'},
+        {header: 'Code', width: 72, sortable: false, dataIndex: 'code'},
         {header: 'Name', width: 340, sortable: false, dataIndex: 'name'},
-        {header: 'System', width: 74, sortable: false, dataIndex: 'system'},
+        {header: 'System', width: 72, sortable: false, dataIndex: 'system'},
     ];
 
     const availableGrid = new Ext.grid.GridPanel({
@@ -114,6 +114,8 @@ const showDialog = function () {
         loadMask: true,
         border: true,
         columns: gridColumns,
+        flex: 1,
+        overflowY: 'scroll',
         listeners: {
             itemclick: (dv, record, item, index) => {
                 selectedItemIndex = index;
@@ -132,6 +134,8 @@ const showDialog = function () {
         loadMask: true,
         border: true,
         columns: gridColumns,
+        flex: 1,
+        overflowY: 'scroll',
         listeners: {
             itemclick: (dv, record, item, index) => {
                 deselectedItemIndex = index;
@@ -145,15 +149,19 @@ const showDialog = function () {
     });
 
     const gridLayout = Ext.create('Ext.Panel', {
+        flex: 1,
         layout: {
-            type: 'hbox'
+            type: 'hbox',
+            align: 'stretch'
         },
-        items: [availableGrid, selectedGrid]
+        items: [availableGrid, { xtype: 'splitter' }, selectedGrid]
     });
 
     const layout = Ext.create('Ext.Panel', {
+        flex: 1,
         layout: {
-            type: 'vbox'
+            type: 'vbox',
+            align: 'stretch'
         },
         items: [query, gridLayout]
     });
