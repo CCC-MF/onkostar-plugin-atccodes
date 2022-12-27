@@ -81,6 +81,10 @@ Im Feld `wirkstoffe` werden die Namen der Substanzen zeilenweise aufgelistet, im
 entsprechenden Daten der ausgewählten Wirkstoffe als JSON-String hinterlegt. Beim Öffnen des Dialogs werden die Daten
 aus dem Feld `wirkstoffejson` ausgelesen und, sofern es dabei keinen Fehler gab, für den Dialog verwendet.
 
+## Enthaltene Wirkstoffliste
+
+Die Datei [`examples/atc.csv`](examples/atc.csv) enthält die Wirkstoffe aus https://confluence.it-choice.de/display/DNPM/Wirkstofflisten.
+
 ## Build
 
 Für das Bauen des Plugins ist zwingend JDK in Version 11 erforderlich.
