@@ -48,7 +48,7 @@ public class OnkostarAgentCodeService implements AgentCodeService {
     }
 
     /**
-     * Queries source for agents with name and code starting with query string.
+     * Queries source for agents code starting with or name containing query string.
      * If size is zero, all available results will be returned.
      *
      * @param query The query string
@@ -70,7 +70,7 @@ public class OnkostarAgentCodeService implements AgentCodeService {
 
         return jdbcTemplate.query(
                 sql,
-                new Object[]{query + "%", query + "%", "%" + query + "%"},
+                new Object[]{query + "%", "%" + query + "%", "%" + query + "%"},
                 (resultSet, i) ->
                         new UnregisteredCode(resultSet.getString("code"), resultSet.getString("shortdesc"))
         );

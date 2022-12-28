@@ -74,8 +74,17 @@ class CsvAtcCodeServiceTest {
     }
 
     @Test
-    void testShouldLoadSpecificAtcCodeByName() {
+    void testShouldLoadSpecificAtcCodeStartingWithName() {
         var actual = service.findAgentCodes("Olaf", 0);
+
+        assertThat(actual).hasSize(1);
+        assertThat(actual.get(0).getCode()).isEqualTo("A01AA03");
+        assertThat(actual.get(0).getName()).isEqualTo("Olaflur");
+    }
+
+    @Test
+    void testShouldLoadSpecificAtcCodeContainingName() {
+        var actual = service.findAgentCodes("flur", 0);
 
         assertThat(actual).hasSize(1);
         assertThat(actual.get(0).getCode()).isEqualTo("A01AA03");

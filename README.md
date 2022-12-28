@@ -40,7 +40,9 @@ Antworten sind wie folgt strukturiert
 * `name`: Der Name der Substanz
 * `system`: Das verwendete System. `ATC` oder `UNREGISTERED` entsprechend bwHC-Datenmodell 1.0
 
-Übergeben werden Substanzen, deren **Name** oder **Code** mit der Zeichenkette in Inputparameter `q` beginnt.
+Übergeben werden Substanzen, deren **Code** mit der Zeichenkette in Inputparameter `q` beginnt oder deren **Name** die
+Zeichenkette in Inputparameter `q` enthält.
+
 Die Ergebnisse sind auf `size` Einträge je Datenquelle limitiert.
 
 Die Antwort für nachfolgendes Beispiel zur Verwendung in einem Formularscript enthält Substanzen, die mit `Acetylsal`

@@ -64,7 +64,7 @@ public abstract class FileBasedAgentCodeService implements AgentCodeService {
     protected abstract List<AgentCode> parseFile(ResourceLoader resourceLoader);
 
     /**
-     * Queries source for agents with name and code starting with query string.
+     * Queries source for agents code starting with or name containing query string.
      * If size is zero, all available results will be returned.
      *
      * @param query The query string
@@ -75,7 +75,7 @@ public abstract class FileBasedAgentCodeService implements AgentCodeService {
     public List<AgentCode> findAgentCodes(String query, int size) {
         var resultStream = this.codeList.stream().filter(agentCode ->
                 agentCode.getCode().toLowerCase().startsWith(query.toLowerCase())
-                        || agentCode.getName().toLowerCase().startsWith(query.toLowerCase())
+                        || agentCode.getName().toLowerCase().contains(query.toLowerCase())
         );
 
         if (size > 0) {
