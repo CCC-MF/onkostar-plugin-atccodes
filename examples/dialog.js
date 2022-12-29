@@ -121,9 +121,10 @@ const showDialog = function () {
                 selectedItemIndex = index;
                 Ext.getCmp('btnAddAgent').setDisabled(false);
             },
-            itemdbclick: (dv, record, item, index) => {
+            itemdblclick: (dv, record, item, index) => {
                 selectedItemIndex = -1
                 addItem(available[index]);
+                Ext.getCmp('btnAddAgent').setDisabled(true);
             }
         }
     });
@@ -141,9 +142,10 @@ const showDialog = function () {
                 deselectedItemIndex = index;
                 Ext.getCmp('btnRmAgent').setDisabled(false);
             },
-            itemdbclick: (dv, record, item, index) => {
+            itemdblclick: (dv, record, item, index) => {
                 deselectedItemIndex = -1
                 removeItem(index);
+                Ext.getCmp('btnRmAgent').setDisabled(true);
             }
         }
     });
