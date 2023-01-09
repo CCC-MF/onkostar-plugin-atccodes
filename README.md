@@ -75,13 +75,19 @@ beginnen.
 
 ### Beispiel zur Verwendung in einem Formularscript
 
-Das Script in [`examples/dialog.js`](examples/dialog.js) zeigt ein Beispiel zur Verwendung in einem Formularscript.
-Das Beispiel geht davon aus, dass es in einem Formular die beiden Textfelder (Memo) `wirkstoffe` und `wirkstoffejson`
-gibt.
+Der Auswahldialog kann wie folgt angezeigt werden:
+
+```javascript
+AtcCodes.show('wirkstoffe', 'wirkstoffejson');
+```
 
 Im Feld `wirkstoffe` werden die Namen der Substanzen zeilenweise aufgelistet, im Feld `wirkstoffejson` die
 entsprechenden Daten der ausgewählten Wirkstoffe als JSON-String hinterlegt. Beim Öffnen des Dialogs werden die Daten
 aus dem Feld `wirkstoffejson` ausgelesen und, sofern es dabei keinen Fehler gab, für den Dialog verwendet.
+
+Das Script in [`examples/dialog.js`](examples/dialog.js) zeigt ein Beispiel zur Verwendung in einem Formularscript.
+Das Beispiel geht ebenfalls davon aus, dass es in einem Formular die beiden Textfelder (Memo) `wirkstoffe` und `wirkstoffejson`
+gibt.
 
 ## Enthaltene Wirkstoffliste
 
