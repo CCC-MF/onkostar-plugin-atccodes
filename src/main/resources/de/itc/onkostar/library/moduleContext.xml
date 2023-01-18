@@ -10,5 +10,5 @@
 
     <context:component-scan base-package="de.ukw.ccc.onkostar.atccodes"/>
 
-    <mvc:resources mapping="/app/plugins/atcodes/**" location="classpath:/de/ukw/ccc/onkostar/atccodes/" />
+    <mvc:resources mapping="/app/plugins/atccodes/**" location="classpath:/de/ukw/ccc/onkostar/atccodes/" />
 </beans>

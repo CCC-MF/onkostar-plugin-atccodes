@@ -10,8 +10,7 @@ class AtcCodes {
             ]
         });
 
-        const
-        selectedStore = new Ext.data.ArrayStore({
+        const selectedStore = new Ext.data.ArrayStore({
             fields: [
                 {name: 'code'},
                 {name: 'name'},
@@ -23,13 +22,13 @@ class AtcCodes {
         let available = [];
         let selected = [];
 
-        const request = function (q) {
+        const request = (q) => {
             if (pluginRequestsDisabled) return;
             executePluginMethod(
                 'AtcCodesPlugin',
                 'query',
                 {q: q, size: 25},
-                function (response) {
+                (response) => {
                     if (response.status.code < 0) {
                         onFailure();
                         return;
@@ -40,19 +39,19 @@ class AtcCodes {
             );
         };
 
-        const addItem = function (item) {
+        const addItem = (item) => {
             selected.push(item);
             const extData = selected.map((item) => [item.code, item.name, item.system]);
             selectedStore.loadData(extData);
         };
 
-        const removeItem = function (index) {
+        const removeItem = (index) => {
             selected.splice(index, 1);
             const extData = selected.map((item) => [item.code, item.name, item.system]);
             selectedStore.loadData(extData);
         };
 
-        const save = function () {
+        const save = () => {
             const names = selected.map((item) => {
                 return item.name;
             }).join("\n");
@@ -60,7 +59,7 @@ class AtcCodes {
             setFieldValue(jsonfield, JSON.stringify(selected));
         };
 
-        const onFailure = function () {
+        const onFailure = () => {
             pluginRequestsDisabled = true;
             Ext.MessageBox.show({
                 title: 'Hinweis',
@@ -69,13 +68,13 @@ class AtcCodes {
             });
         };
 
-        const onSuccess = function (d) {
+        const onSuccess = (d) => {
             available = d;
             const extData = available.map((item) => [item.code, item.name, item.system]);
             availableStore.loadData(extData);
         }
 
-        const showDialog = function () {
+        const showDialog = () => {
             let selectedItemIndex = -1;
             let deselectedItemIndex = -1;
             let queryString = '';
