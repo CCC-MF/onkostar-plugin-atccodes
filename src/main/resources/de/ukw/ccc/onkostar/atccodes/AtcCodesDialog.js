@@ -1,6 +1,6 @@
-class AtcCodes {
+class AtcCodesDialog {
 
-    static show(plainfield = 'wirkstoffe', jsonfield = 'wirkstoffejson') {
+    static show(context, plainfield = 'wirkstoffe', jsonfield = 'wirkstoffejson') {
 
         const availableStore = new Ext.data.ArrayStore({
             fields: [
@@ -23,8 +23,8 @@ class AtcCodes {
         let selected = [];
 
         const request = (q) => {
-            if (pluginRequestsDisabled) return;
-            executePluginMethod(
+            if (pluginRequestsDisabled || !context.executePluginMethod) return;
+            context.executePluginMethod(
                 'AtcCodesPlugin',
                 'query',
                 {q: q, size: 25},
