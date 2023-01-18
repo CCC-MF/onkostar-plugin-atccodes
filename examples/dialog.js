@@ -1,16 +1,16 @@
 const availableStore = new Ext.data.ArrayStore({
     fields: [
-        { name: 'code' },
-        { name: 'name' },
-        { name: 'system' }
+        {name: 'code'},
+        {name: 'name'},
+        {name: 'system'}
     ]
 });
 
 const selectedStore = new Ext.data.ArrayStore({
     fields: [
-        { name: 'code' },
-        { name: 'name' },
-        { name: 'system' }
+        {name: 'code'},
+        {name: 'name'},
+        {name: 'system'}
     ]
 });
 

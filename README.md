@@ -75,9 +75,43 @@ beginnen.
 
 ### Beispiel zur Verwendung in einem Formularscript
 
+Der Auswahldialog kann auf zwei verschiedene Arten angezeigt werden.
+
+#### Kopieren des Beispielscripts
+
 Das Script in [`examples/dialog.js`](examples/dialog.js) zeigt ein Beispiel zur Verwendung in einem Formularscript.
 Das Beispiel geht davon aus, dass es in einem Formular die beiden Textfelder (Memo) `wirkstoffe` und `wirkstoffejson`
 gibt.
+
+#### Einbinden der enthaltenen JavaScript-Ressource
+
+Dieses Plugin enthält eine Web-Ressource, welche den Code des verwendeten Dialogs enthält. Das folgende kurze Script
+kann dazu verwendet werden, den entsprechenden JavaScript-Code abzurufen und benötigte Funktionen aufzurufen.
+
+```javascript
+Ext.syncRequire('app.plugins.atccodes.AtcCodesDialog', () => {
+    if (typeof AtcCodesDialog === 'undefined') {
+        Ext.MessageBox.show({
+            title: 'Hinweis',
+            msg: 'Plugin "ATC-Codes und Substanzen" nicht verfügbar.',
+            buttons: Ext.MessageBox.OK
+        });
+        return;
+    }
+    AtcCodesDialog.show(this);
+});
+```
+
+Dabei wird zunächst das entsprechende Script geladen, wenn es nicht bereits zuvor geladen wurde.
+
+Ist das Plugin nicht installiert und daher auch die entsprechende JavaScript-Klasse nicht verfügbar,
+wird ein entsprechender Hinweis ausgegeben.
+
+Andernfalls wird die Funktion `show()` aufgerufen, welche `this` als Parameter erfordert um den Kontext des Aufrufs zu
+kennen.
+Die beiden folgenden Parameter sind optional und geben die zu nutzenden Formularfeldnamen an.
+Werden keine Formularfeldnamen angegeben, wird davon ausgegangen, dass es in einem Formular die beiden
+Textfelder (Memo) `wirkstoffe` und `wirkstoffejson` gibt.
 
 Im Feld `wirkstoffe` werden die Namen der Substanzen zeilenweise aufgelistet, im Feld `wirkstoffejson` die
 entsprechenden Daten der ausgewählten Wirkstoffe als JSON-String hinterlegt. Beim Öffnen des Dialogs werden die Daten
@@ -85,12 +119,14 @@ aus dem Feld `wirkstoffejson` ausgelesen und, sofern es dabei keinen Fehler gab,
 
 ## Enthaltene Wirkstoffliste
 
-Die Datei [`examples/atc.csv`](examples/atc.csv) enthält die Wirkstoffe aus https://confluence.it-choice.de/display/DNPM/Wirkstofflisten.
+Die Datei [`examples/atc.csv`](examples/atc.csv) enthält die Wirkstoffe
+aus https://confluence.it-choice.de/display/DNPM/Wirkstofflisten.
 
 ## Build
 
 Für das Bauen des Plugins ist zwingend JDK in Version 11 erforderlich.
-Spätere Versionen des JDK beinhalten einige Methoden nicht mehr, die von Onkostar und dort benutzten Libraries verwendet werden.
+Spätere Versionen des JDK beinhalten einige Methoden nicht mehr, die von Onkostar und dort benutzten Libraries verwendet
+werden.
 
 Voraussetzung ist das Kopieren der Datei `onkostar-api-2.11.1.1.jar` (oder neuer) in das Projektverzeichnis `libs`.
 
