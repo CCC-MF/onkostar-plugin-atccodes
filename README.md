@@ -104,6 +104,15 @@ Ext.syncRequire('app.plugins.atccodes.AtcCodesDialog', () => {
 
 Dabei wird zunächst das entsprechende Script geladen, wenn es nicht bereits zuvor geladen wurde.
 
+Es kann dabei vorkommen, dass in Onkostar das Script noch nicht fertig geladen wurde.
+Als Workaround empfiehlt sich hier, die folgende Zeile in den Bereichen "Beim Neuanlegen" und "Beim Bearbeiten" 
+des Formulars einzufügen. Dadurch wird sichergestellt, dass das Script beim Neuanlegen und Bearbeiten des Formulars 
+tatsächlich geladen ist.
+
+```javascript
+Ext.require('app.plugins.atccodes.AtcCodesDialog');
+```
+
 Ist das Plugin nicht installiert und daher auch die entsprechende JavaScript-Klasse nicht verfügbar,
 wird ein entsprechender Hinweis ausgegeben.
 
