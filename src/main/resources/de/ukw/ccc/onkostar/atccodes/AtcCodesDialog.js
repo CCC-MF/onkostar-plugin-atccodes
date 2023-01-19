@@ -226,3 +226,17 @@ class AtcCodesDialog {
     }
 
 }
+
+/**
+ * Wrapper for use with ExtJS
+ *
+ * Use with:
+ *
+ * let AtcCodesDialog = Ext.ClassManager.get('AtcCodesDialog');
+ * AtcCodesDialog.show(this);
+ */
+Ext.define('AtcCodesDialog', {
+    statics: {
+        show: AtcCodesDialog.show
+    }
+});

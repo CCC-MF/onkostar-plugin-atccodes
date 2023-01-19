@@ -90,7 +90,8 @@ kann dazu verwendet werden, den entsprechenden JavaScript-Code abzurufen und ben
 
 ```javascript
 Ext.syncRequire('app.plugins.atccodes.AtcCodesDialog', () => {
-    if (typeof AtcCodesDialog === 'undefined') {
+    let AtcCodesDialog = Ext.ClassManager.get('AtcCodesDialog');
+    if (AtcCodesDialog === null) {
         Ext.MessageBox.show({
             title: 'Hinweis',
             msg: 'Plugin "ATC-Codes und Substanzen" nicht verfügbar.',
