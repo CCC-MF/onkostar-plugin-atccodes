@@ -103,6 +103,8 @@ Ext.syncRequire('app.plugins.atccodes.AtcCodesDialog', () => {
 });
 ```
 
+Dabei wird zunächst das entsprechende Script geladen, wenn es nicht bereits zuvor geladen wurde.
+
 Ist das Plugin nicht installiert und daher auch die entsprechende JavaScript-Klasse nicht verfügbar,
 wird ein entsprechender Hinweis ausgegeben.
 
