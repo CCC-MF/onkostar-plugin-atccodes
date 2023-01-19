@@ -90,7 +90,8 @@ kann dazu verwendet werden, den entsprechenden JavaScript-Code abzurufen und ben
 
 ```javascript
 Ext.syncRequire('app.plugins.atccodes.AtcCodesDialog', () => {
-    if (typeof AtcCodesDialog === 'undefined') {
+    let AtcCodesDialog = Ext.ClassManager.get('AtcCodesDialog');
+    if (AtcCodesDialog === null) {
         Ext.MessageBox.show({
             title: 'Hinweis',
             msg: 'Plugin "ATC-Codes und Substanzen" nicht verfügbar.',
@@ -100,17 +101,6 @@ Ext.syncRequire('app.plugins.atccodes.AtcCodesDialog', () => {
     }
     AtcCodesDialog.show(this);
 });
-```
-
-Dabei wird zunächst das entsprechende Script geladen, wenn es nicht bereits zuvor geladen wurde.
-
-Es kann dabei vorkommen, dass in Onkostar das Script noch nicht fertig geladen wurde.
-Als Workaround empfiehlt sich hier, die folgende Zeile in den Bereichen "Beim Neuanlegen" und "Beim Bearbeiten" 
-des Formulars einzufügen. Dadurch wird sichergestellt, dass das Script beim Neuanlegen und Bearbeiten des Formulars 
-tatsächlich geladen ist.
-
-```javascript
-Ext.require('app.plugins.atccodes.AtcCodesDialog');
 ```
 
 Ist das Plugin nicht installiert und daher auch die entsprechende JavaScript-Klasse nicht verfügbar,
