@@ -55,8 +55,8 @@ class AtcCodesDialog {
             const names = selected.map((item) => {
                 return item.name;
             }).join("\n");
-            setFieldValue(plainfield, names);
-            setFieldValue(jsonfield, JSON.stringify(selected));
+            context.setFieldValue(plainfield, names);
+            context.setFieldValue(jsonfield, JSON.stringify(selected));
         };
 
         const onFailure = () => {
@@ -80,7 +80,7 @@ class AtcCodesDialog {
             let queryString = '';
 
             try {
-                selected = JSON.parse(getFieldValue(jsonfield));
+                selected = JSON.parse(context.getFieldValue(jsonfield));
                 const extData = selected.map((item) => [item.code, item.name, item.system]);
                 selectedStore.loadData(extData);
             } catch (e) {
