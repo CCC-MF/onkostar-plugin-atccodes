@@ -21,6 +21,61 @@ class AtcCodesDialog {
         let pluginRequestsDisabled = false;
         let available = [];
         let selected = [];
+        let blockIndex = null;
+
+        const findButtonFieldFormInformation = () => {
+            const findElemId = (elem) => {
+                if (elem.tagName === 'BODY') {
+                    return undefined;
+                }
+
+                if (elem.tagName === 'TABLE') {
+                    return elem.id;
+                }
+
+                return findElemId(elem.parentElement);
+            }
+
+            const formInfo = (formItem, blockIndex = undefined) => {
+                if (formItem.xtype === 'buttonField') {
+                    return formInfo(formItem.ownerCt, formItem.blockIndex);
+                }
+
+                if (formItem.xtype === 'panel') {
+                    return formInfo(formItem.ownerCt, blockIndex);
+                }
+
+                if (formItem.xtype === 'subformField') {
+                    return {
+                        isSubform: true,
+                        formName: formItem.formName,
+                        subformFieldName: formItem.subformName,
+                        blockIndex: blockIndex
+                    };
+                }
+
+                if (formItem.xtype === 'form') {
+                    return {
+                        isSubform: false,
+                    };
+                }
+
+                console.warn('No information found!');
+                return undefined;
+            }
+
+            if (context.genericEditForm && document.activeElement.tagName === 'BUTTON') {
+                let elemId = findElemId(document.activeElement);
+                if (elemId) {
+                    let formItem = context.genericEditForm.down('#'+elemId);
+                    if (formItem) {
+                        return formInfo(formItem);
+                    }
+                }
+            }
+
+            return undefined;
+        }
 
         const request = (q) => {
             if (pluginRequestsDisabled || !context.executePluginMethod) return;
@@ -55,8 +110,16 @@ class AtcCodesDialog {
             const names = selected.map((item) => {
                 return item.name;
             }).join("\n");
-            context.setFieldValue(plainfield, names);
-            context.setFieldValue(jsonfield, JSON.stringify(selected));
+
+            let field = context.getFieldByEntriesArray('wirkstoffe', blockIndex);
+            if (field) {
+                field.setValue(names);
+            }
+
+            let jsonfield = context.getFieldByEntriesArray('wirkstoffejson', blockIndex);
+            if (jsonfield) {
+                jsonfield.setValue(JSON.stringify(selected));
+            }
         };
 
         const onFailure = () => {
@@ -80,7 +143,7 @@ class AtcCodesDialog {
             let queryString = '';
 
             try {
-                selected = JSON.parse(context.getFieldValue(jsonfield));
+                selected = JSON.parse(context.getFieldValue(jsonfield, blockIndex));
                 const extData = selected.map((item) => [item.code, item.name, item.system]);
                 selectedStore.loadData(extData);
             } catch (e) {
@@ -220,6 +283,11 @@ class AtcCodesDialog {
             }).show();
 
             request('');
+        }
+
+        let buttonFieldFormInformation = findButtonFieldFormInformation();
+        if (buttonFieldFormInformation && buttonFieldFormInformation.blockIndex) {
+            blockIndex = buttonFieldFormInformation.blockIndex;
         }
 
         showDialog();

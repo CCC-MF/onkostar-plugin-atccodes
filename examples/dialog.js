@@ -17,6 +17,61 @@ const selectedStore = new Ext.data.ArrayStore({
 let pluginRequestsDisabled = false;
 let available = [];
 let selected = [];
+let blockIndex = null;
+
+const findButtonFieldFormInformation = function(context) {
+    const findElemId = function(elem) {
+        if (elem.tagName === 'BODY') {
+            return undefined;
+        }
+
+        if (elem.tagName === 'TABLE') {
+            return elem.id;
+        }
+
+        return findElemId(elem.parentElement);
+    }
+
+    const formInfo = function(formItem, blockIndex = undefined) {
+        if (formItem.xtype === 'buttonField') {
+            return formInfo(formItem.ownerCt, formItem.blockIndex);
+        }
+
+        if (formItem.xtype === 'panel') {
+            return formInfo(formItem.ownerCt, blockIndex);
+        }
+
+        if (formItem.xtype === 'subformField') {
+            return {
+                isSubform: true,
+                formName: formItem.formName,
+                subformFieldName: formItem.subformName,
+                blockIndex: blockIndex
+            };
+        }
+
+        if (formItem.xtype === 'form') {
+            return {
+                isSubform: false,
+            };
+        }
+
+        console.warn('No information found!');
+        return undefined;
+    }
+
+    if (context.genericEditForm && document.activeElement.tagName === 'BUTTON') {
+        let elemId = findElemId(document.activeElement);
+        if (elemId) {
+            let formItem = context.genericEditForm.down('#'+elemId);
+            if (formItem) {
+                return formInfo(formItem);
+            }
+        }
+    }
+
+    return undefined;
+}
 
 const request = function (q) {
     if (pluginRequestsDisabled) return;
@@ -47,12 +102,13 @@ const removeItem = function (index) {
     selectedStore.loadData(extData);
 };
 
-const save = function () {
+const save = () => {
     const names = selected.map((item) => {
         return item.name;
     }).join("\n");
-    setFieldValue('wirkstoffe', names);
-    setFieldValue('wirkstoffejson', JSON.stringify(selected));
+
+    this.getFieldByEntriesArray('wirkstoffe', blockIndex).setValue(names);
+    this.getFieldByEntriesArray('wirkstoffejson', blockIndex).setValue(JSON.stringify(selected));
 };
 
 const onFailure = function() {
@@ -76,7 +132,7 @@ const showDialog = function () {
     let queryString = '';
 
     try {
-        selected = JSON.parse(getFieldValue('wirkstoffejson'));
+        selected = JSON.parse(getFieldValue('wirkstoffejson', blockIndex));
         const extData = selected.map((item) => [item.code, item.name, item.system]);
         selectedStore.loadData(extData);
     } catch (e) {
@@ -217,5 +273,10 @@ const showDialog = function () {
 
     request('');
 };
+
+let buttonFieldFormInformation = findButtonFieldFormInformation(this);
+if (buttonFieldFormInformation && buttonFieldFormInformation.blockIndex) {
+    blockIndex = buttonFieldFormInformation.blockIndex;
+}
 
 showDialog();
