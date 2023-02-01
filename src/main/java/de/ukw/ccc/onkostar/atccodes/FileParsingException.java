@@ -32,7 +32,7 @@ package de.ukw.ccc.onkostar.atccodes;
  */
 public class FileParsingException extends RuntimeException {
 
-    public FileParsingException(String msg) {
+    public FileParsingException(final String msg) {
         super(msg);
     }
 

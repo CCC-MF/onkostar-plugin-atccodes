@@ -46,11 +46,11 @@ public abstract class FileBasedAgentCodeService implements AgentCodeService {
 
     protected final List<AgentCode> codeList = new ArrayList<>();
 
-    FileBasedAgentCodeService(ResourceLoader resourceLoader) {
+    FileBasedAgentCodeService(final ResourceLoader resourceLoader) {
         this.codeList.addAll(parseFile(resourceLoader));
     }
 
-    static String getFilePath(String filename) {
+    static String getFilePath(final String filename) {
         String pluginPathPart = "onkostar/files/onkostar/plugins/onkostar-plugin-atccodes";
 
         if (SystemUtils.IS_OS_WINDOWS) {
@@ -61,7 +61,7 @@ public abstract class FileBasedAgentCodeService implements AgentCodeService {
         return filename;
     }
 
-    protected abstract List<AgentCode> parseFile(ResourceLoader resourceLoader);
+    protected abstract List<AgentCode> parseFile(final ResourceLoader resourceLoader);
 
     /**
      * Queries source for agents code starting with or name containing query string.
@@ -72,7 +72,7 @@ public abstract class FileBasedAgentCodeService implements AgentCodeService {
      * @return A list with agent codes
      */
     @Override
-    public List<AgentCode> findAgentCodes(String query, int size) {
+    public List<AgentCode> findAgentCodes(final String query, final int size) {
         var resultStream = this.codeList.stream().filter(agentCode ->
                 agentCode.getCode().toLowerCase().startsWith(query.toLowerCase())
                         || agentCode.getName().toLowerCase().contains(query.toLowerCase())

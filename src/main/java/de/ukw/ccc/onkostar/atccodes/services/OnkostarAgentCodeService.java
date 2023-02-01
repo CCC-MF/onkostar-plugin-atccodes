@@ -43,7 +43,7 @@ public class OnkostarAgentCodeService implements AgentCodeService {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public OnkostarAgentCodeService(DataSource dataSource) {
+    public OnkostarAgentCodeService(final DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -56,7 +56,7 @@ public class OnkostarAgentCodeService implements AgentCodeService {
      * @return A list with agent codes
      */
     @Override
-    public List<AgentCode> findAgentCodes(String query, int size) {
+    public List<AgentCode> findAgentCodes(final String query, final int size) {
         var sql = "SELECT code, shortdesc\n" +
                 "    FROM property_catalogue\n" +
                 "    JOIN property_catalogue_version ON (property_catalogue_version.datacatalog_id = property_catalogue.id)\n" +

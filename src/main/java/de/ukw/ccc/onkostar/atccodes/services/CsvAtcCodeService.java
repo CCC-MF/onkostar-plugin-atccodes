@@ -45,11 +45,11 @@ import java.util.List;
 @Service
 public class CsvAtcCodeService extends FileBasedAgentCodeService {
 
-    public CsvAtcCodeService(ResourceLoader resourceLoader) {
+    public CsvAtcCodeService(final ResourceLoader resourceLoader) {
         super(resourceLoader);
     }
 
-    protected List<AgentCode> parseFile(ResourceLoader resourceLoader) {
+    protected List<AgentCode> parseFile(final ResourceLoader resourceLoader) {
         var result = new ArrayList<AgentCode>();
         var filename = getFilePath("atc.csv");
         try {

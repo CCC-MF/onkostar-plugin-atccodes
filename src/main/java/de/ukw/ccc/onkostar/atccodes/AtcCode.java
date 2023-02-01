@@ -55,12 +55,12 @@ public class AtcCode implements AgentCode {
     }
 
     @Override
-    public int compareTo(AgentCode agentCode) {
+    public int compareTo(final AgentCode agentCode) {
         return this.name.toLowerCase().compareTo(agentCode.getName().toLowerCase());
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AgentCode otherAgentCode = (AgentCode) o;

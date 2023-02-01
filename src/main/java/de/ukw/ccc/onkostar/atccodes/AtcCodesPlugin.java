@@ -89,12 +89,12 @@ public class AtcCodesPlugin implements IProcedureAnalyzer {
     }
 
     @Override
-    public boolean isRelevantForAnalyzer(Procedure procedure, Disease disease) {
+    public boolean isRelevantForAnalyzer(final Procedure procedure, final Disease disease) {
         return false;
     }
 
     @Override
-    public void analyze(Procedure procedure, Disease disease) {
+    public void analyze(final Procedure procedure, final Disease disease) {
         // Nothing to do - should never be called
     }
 
@@ -115,7 +115,7 @@ public class AtcCodesPlugin implements IProcedureAnalyzer {
      * @param input The data Map
      * @return The result list filtered by input
      */
-    public List<AgentCode> query(Map<String, Object> input) {
+    public List<AgentCode> query(final Map<String, Object> input) {
         String query = "";
         if (null != input.get("q")) {
             query = input.get("q").toString();
