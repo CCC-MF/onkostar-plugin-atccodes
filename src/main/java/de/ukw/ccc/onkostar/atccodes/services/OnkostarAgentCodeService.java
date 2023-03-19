@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Comprehensive Cancer Center Mainfranken
+ * Copyright (c) 2022-2023 Comprehensive Cancer Center Mainfranken
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,7 @@
 package de.ukw.ccc.onkostar.atccodes.services;
 
 import de.ukw.ccc.onkostar.atccodes.AgentCode;
+import de.ukw.ccc.onkostar.atccodes.AtcCode;
 import de.ukw.ccc.onkostar.atccodes.UnregisteredCode;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -71,8 +72,14 @@ public class OnkostarAgentCodeService implements AgentCodeService {
         return jdbcTemplate.query(
                 sql,
                 new Object[]{query + "%", "%" + query + "%", "%" + query + "%"},
-                (resultSet, i) ->
-                        new UnregisteredCode(resultSet.getString("code"), resultSet.getString("shortdesc"))
+                (resultSet, i) -> {
+                    var code = resultSet.getString("code");
+                    var shortdesc = resultSet.getString("shortdesc");
+                    if (AtcCode.isAtcCode(code)) {
+                        return new AtcCode(code, shortdesc);
+                    }
+                    return new UnregisteredCode(code, shortdesc);
+                }
         );
     }
 }

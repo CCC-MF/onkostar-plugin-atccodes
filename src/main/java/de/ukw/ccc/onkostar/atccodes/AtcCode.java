@@ -72,4 +72,15 @@ public class AtcCode implements AgentCode {
     public int hashCode() {
         return Objects.hash(code.toLowerCase(), name.toLowerCase());
     }
+
+    /**
+     * Checks for usable ATC code starting at level 2
+     * @param code Code to be checked
+     * @return Will return <code>true</code> if code matches ATC code scheme
+     */
+    public static boolean isAtcCode(String code) {
+        return null != code
+                && ! code.isBlank()
+                && code.matches("[ABCDGHJLMNPRSV][0-2][1-9]([A-Z]([A-Z]([0-9]{2})?)?)?");
+    }
 }
