@@ -60,7 +60,7 @@ public class AtcCodesPlugin implements IProcedureAnalyzer {
 
     @Override
     public String getVersion() {
-        return "0.4.0";
+        return "0.5.0";
     }
 
     @Override
