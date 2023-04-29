@@ -81,6 +81,6 @@ public class AtcCode implements AgentCode {
     public static boolean isAtcCode(String code) {
         return null != code
                 && ! code.isBlank()
-                && code.matches("[ABCDGHJLMNPRSV][0-2][1-9]([A-Z]([A-Z]([0-9]{2})?)?)?");
+                && code.matches("[ABCDGHJLMNPRSV][0-2][1-9]([A-Z]([A-Z](\\d{2})?)?)?");
     }
 }
