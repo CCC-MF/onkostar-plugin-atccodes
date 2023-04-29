@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * Copyright (c) 2022 Comprehensive Cancer Center Mainfranken
+ * Copyright (c) 2023 Comprehensive Cancer Center Mainfranken
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,13 +24,19 @@
 
 package de.ukw.ccc.onkostar.atccodes.services;
 
+import de.ukw.ccc.onkostar.atccodes.AtcCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.ResourceLoader;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -64,31 +70,31 @@ class WhoAtcCodeServiceTest {
         assertThat(actual).hasSize(5);
     }
 
-    @Test
-    void testShouldLoadSpecificAtcCodeByCode() {
-        var actual = service.findAgentCodes("A01AA01", 0);
-
-        assertThat(actual).hasSize(1);
-        assertThat(actual.get(0).getCode()).isEqualTo("A01AA01");
-        assertThat(actual.get(0).getName()).isEqualTo("Sodium fluoride");
+    private static List<Arguments> expectedAgentCodes() {
+        return List.of(
+                Arguments.of(
+                        "A01AA01", List.of(new AtcCode("A01AA01", "Sodium fluoride"))
+                ),
+                Arguments.of(
+                        "Olaf", List.of(new AtcCode("A01AA03", "Olaflur"))
+                ),
+                Arguments.of(
+                        "flur", List.of(new AtcCode("A01AA03", "Olaflur"))
+                )
+        );
     }
 
-    @Test
-    void testShouldLoadSpecificAtcCodeStartingWithName() {
-        var actual = service.findAgentCodes("Olaf", 0);
+    @ParameterizedTest
+    @MethodSource("expectedAgentCodes")
+    void testShouldLoadFilteredAtcCodes(String query, List<AtcCode> expectedResults) {
+        var actual = service.findAgentCodes(query, 0);
 
-        assertThat(actual).hasSize(1);
-        assertThat(actual.get(0).getCode()).isEqualTo("A01AA03");
-        assertThat(actual.get(0).getName()).isEqualTo("Olaflur");
-    }
+        assertThat(actual).hasSize(expectedResults.size());
 
-    @Test
-    void testShouldLoadSpecificAtcCodeContainingName() {
-        var actual = service.findAgentCodes("flur", 0);
-
-        assertThat(actual).hasSize(1);
-        assertThat(actual.get(0).getCode()).isEqualTo("A01AA03");
-        assertThat(actual.get(0).getName()).isEqualTo("Olaflur");
+        for (var i = 0; i < actual.size(); i++) {
+            assertThat(actual.get(i).getCode()).isEqualTo(expectedResults.get(i).getCode());
+            assertThat(actual.get(i).getName()).isEqualTo(expectedResults.get(i).getName());
+        }
     }
 
     @Test
