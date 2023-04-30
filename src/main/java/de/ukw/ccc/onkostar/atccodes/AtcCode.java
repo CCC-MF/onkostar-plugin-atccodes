@@ -37,9 +37,18 @@ public class AtcCode implements AgentCode {
     private final String code;
     private final String name;
 
+    private final String version;
+
     public AtcCode(String code, String name) {
         this.code = code;
         this.name = name;
+        this.version = null;
+    }
+
+    public AtcCode(String code, String name, String version) {
+        this.code = code;
+        this.name = name;
+        this.version = version;
     }
 
     public String getCode() {
@@ -54,6 +63,10 @@ public class AtcCode implements AgentCode {
         return CodeSystem.ATC;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
     @Override
     public int compareTo(final AgentCode agentCode) {
         return this.name.toLowerCase().compareTo(agentCode.getName().toLowerCase());
@@ -65,7 +78,8 @@ public class AtcCode implements AgentCode {
         if (o == null || getClass() != o.getClass()) return false;
         AgentCode otherAgentCode = (AgentCode) o;
         return Objects.equals(code.toLowerCase(), otherAgentCode.getCode().toLowerCase())
-                && Objects.equals(name.toLowerCase(), otherAgentCode.getName().toLowerCase());
+                && Objects.equals(name.toLowerCase(), otherAgentCode.getName().toLowerCase())
+                && Objects.equals(version, otherAgentCode.getVersion());
     }
 
     @Override

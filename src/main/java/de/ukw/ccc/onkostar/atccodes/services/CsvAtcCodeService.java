@@ -62,7 +62,11 @@ public class CsvAtcCodeService extends FileBasedAgentCodeService {
                 if (!row.isMapped("CODE") || !row.isMapped("NAME")) {
                     throw new FileParsingException("No CSV column 'CODE' or 'NAME' found");
                 }
-                result.add(new AtcCode(row.get("CODE"), row.get("NAME")));
+                if (row.isMapped("VERSION")) {
+                    result.add(new AtcCode(row.get("CODE"), row.get("NAME"), row.get("VERSION")));
+                } else {
+                    result.add(new AtcCode(row.get("CODE"), row.get("NAME")));
+                }
             }
             logger.info("Found CSV file for ATC-Codes.");
             return result;

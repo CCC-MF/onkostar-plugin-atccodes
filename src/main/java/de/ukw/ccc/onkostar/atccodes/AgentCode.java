@@ -36,4 +36,6 @@ public interface AgentCode extends Comparable<AgentCode> {
     String getName();
 
     CodeSystem getSystem();
+
+    String getVersion();
 }

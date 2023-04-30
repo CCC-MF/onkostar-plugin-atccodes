@@ -94,7 +94,21 @@ class CsvAtcCodeServiceTest {
         for (var i = 0; i < actual.size(); i++) {
             assertThat(actual.get(i).getCode()).isEqualTo(expectedResults.get(i).getCode());
             assertThat(actual.get(i).getName()).isEqualTo(expectedResults.get(i).getName());
+            assertThat(actual.get(i).getVersion()).isNull();
         }
+    }
+
+    @Test
+    void testShouldReturnAtcCodeWithAdditionalVersion() throws Exception {
+        doAnswer(invocationOnMock -> new ClassPathResource("atc_with_version.csv")).when(resourceLoader).getResource(anyString());
+        this.service = new CsvAtcCodeService(resourceLoader);
+
+        var actual = service.findAgentCodes("A01AA01", 0);
+
+        assertThat(actual).hasSize(1);
+        assertThat(actual.get(0).getCode()).isEqualTo("A01AA01");
+        assertThat(actual.get(0).getName()).isEqualTo("Sodium fluoride");
+        assertThat(actual.get(0).getVersion()).isEqualTo("2023");
     }
 
     @Test
