@@ -54,6 +54,10 @@ public class UnregisteredCode implements AgentCode {
         return CodeSystem.UNREGISTERED;
     }
 
+    public String getVersion() {
+        return null;
+    }
+
     @Override
     public int compareTo(final AgentCode agentCode) {
         return this.name.toLowerCase().compareTo(agentCode.getName().toLowerCase());
@@ -65,7 +69,8 @@ public class UnregisteredCode implements AgentCode {
         if (o == null || getClass() != o.getClass()) return false;
         AgentCode otherAgentCode = (AgentCode) o;
         return Objects.equals(code.toLowerCase(), otherAgentCode.getCode().toLowerCase())
-                && Objects.equals(name.toLowerCase(), otherAgentCode.getName().toLowerCase());
+                && Objects.equals(name.toLowerCase(), otherAgentCode.getName().toLowerCase())
+                && Objects.equals(this.getVersion(), otherAgentCode.getVersion());
     }
 
     @Override

@@ -13,7 +13,7 @@ Der Ort zur Ablage dieser Dateien unterscheidet sich nach verwendetem Betriebssy
 
 ### Unterstütztes Format der selbst erstellten CSV-Datei
 
-Die CSV-Datei muss die beiden Spalten `CODE` und `NAME` mit den entsprechenden Informationen enthalten.
+Die CSV-Datei muss die beiden Spalten `CODE` und `NAME` mit den entsprechenden Informationen enthalten. Die Spalte `VERSION` ist optional. 
 Beim Import wird die erste Zeile der Datei, welche die Spaltenüberschriften enthält, nicht verarbeitet.
 Entsprechend [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) werden Werte durch Kommata getrennt und von `"`
 umschlossen,
@@ -31,7 +31,7 @@ oder einer selbst zusammen gestellten CSV-Datei werden mit ATC-Code übergeben.
 Zusätzlich erfolgt die Übergabe des verwendeten Systems gemäß bwHC-Datenmodell 1.0.
 
 * `UNREGISTERED`: Substanz ist in `OS.Substanz` vorhanden und es wird davon auszugehen, dass kein ATC-Code verwendet
-  wird.
+  wird. Entspricht der Code dem Muster eines ATC-Codes, wird die Substanz als ATC-Code verwendet.
 * `ATC`: Substanz stammt aus WHO-XML-Datei oder einer selbst erstellten CSV-Datei, welche ATC-Codes bereitstellt.
 
 Antworten sind wie folgt strukturiert
@@ -39,6 +39,7 @@ Antworten sind wie folgt strukturiert
 * `code`: Der ATC-Code (wenn System "ATC") oder das interne Kürzel in Onkostar
 * `name`: Der Name der Substanz
 * `system`: Das verwendete System. `ATC` oder `UNREGISTERED` entsprechend bwHC-Datenmodell 1.0
+* `version`: Die Version des Codes, wenn in CSV-Datei eingetragen, entsprechend bwHC-Datenmodell 1.0
 
 Übergeben werden Substanzen, deren **Code** mit der Zeichenkette in Inputparameter `q` beginnt oder deren **Name** die
 Zeichenkette in Inputparameter `q` enthält.
@@ -46,24 +47,27 @@ Zeichenkette in Inputparameter `q` enthält.
 Die Ergebnisse sind auf `size` Einträge je Datenquelle limitiert.
 
 Die Antwort für nachfolgendes Beispiel zur Verwendung in einem Formularscript enthält Substanzen, die mit `Acetylsal`
-beginnen.
+beginnen. Die Angabe der Version ist dabei abhängig davon, ob Informationen darüber vorliegen.
 
 ```json
 [
   {
     "code": "A01AD05",
     "name": "Acetylsalicylic acid",
-    "system": "ATC"
+    "system": "ATC",
+    "version": "2023"
   },
   {
     "code": "B01AC06",
     "name": "Acetylsalicylic acid",
-    "system": "ATC"
+    "system": "ATC",
+    "version": "2023"
   },
   {
     "code": "M01BA03",
     "name": "Acetylsalicylic acid and corticosteroids",
-    "system": "ATC"
+    "system": "ATC",
+    "version": "2023"
   },
   {
     "code": "Acetylsali",
