@@ -6,7 +6,8 @@ class AtcCodesDialog {
             fields: [
                 {name: 'code'},
                 {name: 'name'},
-                {name: 'system'}
+                {name: 'system'},
+                {name: 'version'}
             ]
         });
 
@@ -14,7 +15,8 @@ class AtcCodesDialog {
             fields: [
                 {name: 'code'},
                 {name: 'name'},
-                {name: 'system'}
+                {name: 'system'},
+                {name: 'version'}
             ]
         });
 
@@ -96,13 +98,13 @@ class AtcCodesDialog {
 
         const addItem = (item) => {
             selected.push(item);
-            const extData = selected.map((item) => [item.code, item.name, item.system]);
+            const extData = selected.map((item) => [item.code, item.name, item.system, item.version]);
             selectedStore.loadData(extData);
         };
 
         const removeItem = (index) => {
             selected.splice(index, 1);
-            const extData = selected.map((item) => [item.code, item.name, item.system]);
+            const extData = selected.map((item) => [item.code, item.name, item.system, item.version]);
             selectedStore.loadData(extData);
         };
 
@@ -133,7 +135,7 @@ class AtcCodesDialog {
 
         const onSuccess = (d) => {
             available = d;
-            const extData = available.map((item) => [item.code, item.name, item.system]);
+            const extData = available.map((item) => [item.code, item.name, item.system, item.version]);
             availableStore.loadData(extData);
         }
 
@@ -144,11 +146,11 @@ class AtcCodesDialog {
 
             try {
                 selected = JSON.parse(context.getFieldValue(jsonfield, blockIndex));
-                const extData = selected.map((item) => [item.code, item.name, item.system]);
+                const extData = selected.map((item) => [item.code, item.name, item.system, item.version]);
                 selectedStore.loadData(extData);
             } catch (e) {
                 selected = [];
-                const extData = selected.map((item) => [item.code, item.name, item.system]);
+                const extData = selected.map((item) => [item.code, item.name, item.system, item.version]);
                 selectedStore.loadData(extData);
             }
 
@@ -171,8 +173,9 @@ class AtcCodesDialog {
 
             const gridColumns = [
                 {header: 'Code', width: 72, sortable: false, dataIndex: 'code'},
-                {header: 'Name', width: 340, sortable: false, dataIndex: 'name'},
+                {header: 'Name', width: 300, sortable: false, dataIndex: 'name'},
                 {header: 'System', width: 72, sortable: false, dataIndex: 'system'},
+                {header: 'Version', width: 72, sortable: false, dataIndex: 'version'},
             ];
 
             const availableGrid = new Ext.grid.GridPanel({
@@ -238,7 +241,7 @@ class AtcCodesDialog {
             Ext.create('Ext.window.Window', {
                 title: 'Substanz auswählen',
                 height: 600,
-                width: 1000,
+                width: 1080,
                 layout: 'fit',
                 items: [layout],
                 buttons: [{

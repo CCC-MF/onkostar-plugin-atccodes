@@ -2,7 +2,8 @@ const availableStore = new Ext.data.ArrayStore({
     fields: [
         {name: 'code'},
         {name: 'name'},
-        {name: 'system'}
+        {name: 'system'},
+        {name: 'version'}
     ]
 });
 
@@ -10,7 +11,8 @@ const selectedStore = new Ext.data.ArrayStore({
     fields: [
         {name: 'code'},
         {name: 'name'},
-        {name: 'system'}
+        {name: 'system'},
+        {name: 'version'}
     ]
 });
 
@@ -92,13 +94,13 @@ const request = function (q) {
 
 const addItem = function (item) {
     selected.push(item);
-    const extData = selected.map((item) => [item.code, item.name, item.system]);
+    const extData = selected.map((item) => [item.code, item.name, item.system, item.version]);
     selectedStore.loadData(extData);
 };
 
 const removeItem = function (index) {
     selected.splice(index, 1);
-    const extData = selected.map((item) => [item.code, item.name, item.system]);
+    const extData = selected.map((item) => [item.code, item.name, item.system, item.version]);
     selectedStore.loadData(extData);
 };
 
@@ -122,7 +124,7 @@ const onFailure = function() {
 
 const onSuccess = function(d) {
     available = d;
-    const extData = available.map((item) => [item.code, item.name, item.system]);
+    const extData = available.map((item) => [item.code, item.name, item.system, item.version]);
     availableStore.loadData(extData);
 }
 
@@ -133,11 +135,11 @@ const showDialog = function () {
 
     try {
         selected = JSON.parse(getFieldValue('wirkstoffejson', blockIndex));
-        const extData = selected.map((item) => [item.code, item.name, item.system]);
+        const extData = selected.map((item) => [item.code, item.name, item.system, item.version]);
         selectedStore.loadData(extData);
     } catch (e) {
         selected = [];
-        const extData = selected.map((item) => [item.code, item.name, item.system]);
+        const extData = selected.map((item) => [item.code, item.name, item.system, item.version]);
         selectedStore.loadData(extData);
     }
 
@@ -160,8 +162,9 @@ const showDialog = function () {
 
     const gridColumns = [
         {header: 'Code', width: 72, sortable: false, dataIndex: 'code'},
-        {header: 'Name', width: 340, sortable: false, dataIndex: 'name'},
+        {header: 'Name', width: 300, sortable: false, dataIndex: 'name'},
         {header: 'System', width: 72, sortable: false, dataIndex: 'system'},
+        {header: 'Version', width: 72, sortable: false, dataIndex: 'version'},
     ];
 
     const availableGrid = new Ext.grid.GridPanel({
@@ -227,7 +230,7 @@ const showDialog = function () {
     Ext.create('Ext.window.Window', {
         title: 'Substanz auswählen',
         height: 600,
-        width: 1000,
+        width: 1080,
         layout: 'fit',
         items: [layout],
         buttons: [{
